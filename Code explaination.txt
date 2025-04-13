@@ -1,0 +1,91 @@
+### 🧠 **1. Imports and Constants**
+- **Imports:** Webots libraries (`Robot`, `Camera`, `GPS`, `InertialUnit`, `Lidar`, etc.), plus math, numpy, and struct for calculations.
+- **Constants:** Define directions (e.g., `NORTH`, `EAST`), tile types (`RED`, `BLUE`, `BLACK`), offsets for grid-based mapping, and some UI text colors for printing.
+
+---
+
+### ⚙️ **2. Robot and Device Initialization**
+Initializes all sensors and actuators:
+- **Cameras:** `camera1`, `camera2` – for victim detection.
+- **Color sensor:** Used to detect tile color beneath the robot.
+- **GPS and IMU (Inertial Measurement Unit):** For localization and orientation.
+- **Lidar:** Used for distance sensing to detect walls.
+- **Wheel motors:** `wheelL`, `wheelR` for robot movement.
+- **Distance sensors:** Front, right, left, and at 45° angles.
+- **Emitter/Receiver:** Used for sending victim info.
+
+---
+
+### 🧭 **3. Mapping and Movement**
+- **`x_map`, `y_map`**: Current tile coordinates on the map.
+- **`mapData`**, `mapData2`: 2D arrays storing wall and victim information.
+- **`go(spl, spr)`**: Sets wheel speeds after bounding them.
+- **`delay(num)`**: Waits for a certain number of timesteps.
+
+---
+
+### 📍 **4. Sensors and Orientation**
+- **`get_gps_x/y()`**: Returns GPS position in mm.
+- **`get_yaw()`**: Calculates yaw angle in degrees from IMU.
+- **`dir_update()`**: Converts yaw angle into a cardinal direction (N/E/S/W).
+- **`ReadLidar(dir)` and `pixel_avearge()`**: Read distances using Lidar data in a specified direction.
+
+---
+
+### 🎨 **5. Color Detection**
+- **`color()`**: Detects the tile color under the robot using RGB values.
+  - Handles colors like RED, GREEN, BLUE, ORANGE, etc.
+  - Updates flags such as `check_room4`.
+
+---
+
+### 🔍 **6. Victim Detection (Core Functionality)**
+- **`p_find()`**: Main function that analyzes camera images to detect victims:
+  - Looks for specific RGB patterns and shapes.
+  - Classifies victims as:
+    - **H (Harmed)**,
+    - **U (Unconscious)**,
+    - **S (Stable)**,
+    - **C (Chemical)**,
+    - **P (Paramedic)**,
+    - **F (Fire)**,
+    - **O (Other)**
+  - Uses Lidar and image structure to confirm presence and type.
+- **`p_victim()`, `p_hazmat()`, `p_hazmat2()`**: Sub-functions for specific victim types.
+
+---
+
+### 🛰️ **7. Victim Logging**
+- **`send_victim(camera, type, mapCode)`**: Sends a message with the victim type and GPS location using the emitter.
+
+---
+
+### 🗺️ **8. Mapping Functions**
+- **`update_coordinate_map()`**: Updates map coordinates based on GPS.
+- **`SetWall(direction)`**: Sets wall information in `mapData` based on Lidar data.
+- **`SetMap()`**: Full update of the map with walls and obstacles using Lidar readings.
+- **`Tile_set()`, `Tile_setB()`, etc.**: Mark areas on the map depending on robot direction.
+
+---
+
+### 🔁 **9. Loop and Logic**
+Though the main control loop isn’t shown at the end due to truncation, typically Webots controllers have a loop like:
+
+```python
+while robot.step(timeStep) != -1:
+    # logic for movement, mapping, victim detection
+```
+
+You probably have that in the missing portion.
+
+---
+
+### 🧩 Summary of Functional Goals:
+| Component        | Purpose                                        |
+|------------------|------------------------------------------------|
+| Lidar            | Detect walls & estimate distances              |
+| Cameras          | Detect visual victims using image analysis     |
+| GPS + IMU        | Track orientation and position                 |
+| Map Arrays       | Build a digital representation of the maze     |
+| Color Sensor     | Detect tile color under the robot              |
+| Emitter          | Report found victims                           |
