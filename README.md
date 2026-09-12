@@ -1,8 +1,8 @@
-# A.R.I.A. — Autonomous Rescue & Intelligence Agent
+# A.R.I.A. (Autonomous Rescue & Intelligence Agent)
 
 Team Kavosh Senior's controller for **RoboCupJunior Rescue Simulation**, written in Python for the Webots simulator.
 
-A.R.I.A. explores an unknown maze, builds a map as it goes, identifies victims and hazards from camera and lidar data, and reports what it finds — all autonomously, scored against the competition rules.
+A.R.I.A. explores an unknown maze, builds a map as it goes, identifies victims and hazards from camera and lidar data, and reports what it finds, all autonomously, scored against the competition rules.
 
 **Results:** 1st place, Rescue Simulation SuperTeam, RoboCupJunior World Cup 2026 · 2nd place, Rescue Simulation, RoboCup Americas / US Open 2025.
 
@@ -17,7 +17,7 @@ A.R.I.A. explores an unknown maze, builds a map as it goes, identifies victims a
 | Mapping | Position is tracked in `x_map` / `y_map`; walls and obstacles accumulate into `mapData` arrays for the final map submission |
 | Reporting | Findings go out over the emitter in the format the scoring system expects |
 
-The central routine is `p_find()`, which cross-checks camera imagery against lidar returns before committing to a victim call — a wrong classification costs more than a missed one under the competition's scoring, so detection is deliberately conservative.
+The central routine is `p_find()`, which cross-checks camera imagery against lidar returns before committing to a victim call. A wrong classification costs more than a missed one under the competition's scoring, so detection is deliberately conservative.
 
 ## Repository contents
 
@@ -32,7 +32,7 @@ The central routine is `p_find()`, which cross-checks camera imagery against lid
 
 1. Install [Webots](https://cyberbotics.com/) and open a RoboCupJunior Rescue Simulation world.
 2. Set the robot's controller to the Python file you want to run.
-3. Run the simulation. The controller drives, maps and reports on its own — no operator input.
+3. Run the simulation. The controller drives, maps and reports on its own, with no operator input.
 
 ## Team
 
